@@ -104,6 +104,7 @@ input[type='text']:focus {
     margin-top: 20px;
     border-radius: 15px;
     padding: 5px 20px;
+    visibility: hidden;
 }
 
 .notify-section {
@@ -118,4 +119,9 @@ input[type='text']:focus {
 
 .display-pin {
     text-align: center;
+}
+
+.disabled {
+    background: #495bc3ee;
+    opacity: .45;
 }
