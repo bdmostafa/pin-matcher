@@ -104,7 +104,7 @@ input[type='text']:focus {
     margin-top: 20px;
     border-radius: 15px;
     padding: 5px 20px;
-    visibility: hidden;
+    display: none;
 }
 
 .notify-section {
@@ -131,4 +131,10 @@ input {
 .disabled {
     background: #495bc3ee;
     opacity: .45;
+}
+
+
+.notify-section .success-message,
+.notify-section .wrong-message {
+    display: none;
 }

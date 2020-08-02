@@ -1,5 +1,6 @@
 // Variables =========================================================
 let digitCount = 0;
+let tryCount = 3;
 const min = 1000;
 const max = 9999;
 
@@ -9,19 +10,23 @@ const generateBtn = document.querySelector('.generate-btn');
 const submitBtn = document.querySelector('.submit-btn');
 const digitBtn = document.querySelectorAll('.button');
 const displayDigit = document.querySelector('.display-digit');
+const successMessage = document.querySelector('.success-message');
+const wrongMessage = document.querySelector('.wrong-message');
+const tryLeft = document.querySelector('.action-left');
 
 
 
 // Event Listeners ======================================================
-document.addEventListener('DOMContentLoaded', Disabled);
+document.addEventListener('DOMContentLoaded', submitDisabled);
 generateBtn.addEventListener('click', generatePin);
 digitBtn.forEach((digit) => digit.addEventListener('click', addDigit));
 submitBtn.addEventListener('click', submitPin);
 
+
 // Functions ===========================================================
 
 // When loading, SUBMIT button disabled until generate PIN
-function Disabled() {
+function submitDisabled() {
     submitBtn.disabled = true;
     submitBtn.classList.add('disabled');
 }
@@ -31,6 +36,7 @@ function generatePin() {
     //The maximum and the minimum both are inclusive
     const resultPin = Math.floor(Math.random() * (max - min + 1)) + min;
     displayPin.value = resultPin;
+    displayDigit.value = '';
 
     // Submit button enabled when generating PIN
     submitBtn.disabled = false;
@@ -63,7 +69,23 @@ function clearAll() {
     displayDigit.value = '';
 }
 
-function submitPin() {
-    if (!displayPin.value) return;
+function submitPin(event) {
+    if (displayPin.value === displayDigit.value) {
+        successMessage.style.display = 'block';
+        tryLeft.style.display = 'none';
+        submitDisabled();
+    } else {
+        wrongMessage.style.display = 'block';
+        displayDigit.value = '';
+        digitCount = 0;
 
+        while (tryCount > 0)
+            tryLeft.innerText = `${tryCount} try left`;
+        tryCount--;
+
+        if (tryCount === 0) {
+            submitDisabled();
+            return alert('Oops! Please try again.');
+        }
+    }
 }
