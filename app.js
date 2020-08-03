@@ -82,7 +82,9 @@ function addDigit(event) {
 
 // Function to delete one digit from left event
 function deleteLeft() {
-
+    console.log(submitDigit.value)
+    submitDigit.value = submitDigit.value.slice(0, -1);
+    digitCount--;
 }
 
 // Function to clear all submitDigit.value in the input box
