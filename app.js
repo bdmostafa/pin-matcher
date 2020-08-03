@@ -36,7 +36,7 @@ function submitDisabled() {
     submitBtn.classList.add('disabled');
 
     // Submit button enabled when generating PIN
-    if (generatePin) {
+    if (displayPin.value) {
         submitBtn.disabled = false;
         submitBtn.classList.remove('disabled');
     }
@@ -50,21 +50,19 @@ function generatePin() {
     displayPin.value = resultPin;
     // displayDigit.value = '';
 
-    submitDisabled();
     notifyMessage();
+    submitDisabled();
     digitCount = 0;
+    tryCount = 3;
+    tryLeft.innerText = `${tryCount} try left`;
 }
 
 // Function to add digits into display input on submit section
 function addDigit(event) {
-    // If generatePin is not found, assigning digit/value is not allowed
-    if (!displayPin.value) {
-        return alert('Please generate PIN at first!');
-    }
 
+    alertMessage()
     // When numbers exceeds 4 digits, stop assign value into the display input
     const digit = event.target.innerText;
-    console.log(digit)
     if (digitCount <= 3 && digit !== '<' && digit !== 'C') {
         displayDigit.value += digit;
         digitCount++;
@@ -84,29 +82,16 @@ function clearAll() {
 
 function submitPin() {
     isSubmitClicked = true;
-    // if (displayPin.value === displayDigit.value) {
-    // successMessage.style.display = 'block';
     notifyMessage();
     submitDisabled();
-    // } else {
-    // wrongMessage.style.display = 'block';
-    // displayDigit.value = '';
-    // digitCount = 0;
+    digitCount = 0;
 
-    // while (tryCount > 0)
-    //     tryLeft.innerText = `${tryCount} try left`;
-    // tryCount--;
-
-    // if (tryCount === 0) {
-    //     submitDisabled();
-    //     return alert('Oops! Please try again.');
-    // }
-    // }
 }
 
 function notifyMessage() {
     successMessage.style.display = 'none';
-    wrongMessage.style.display = 'none'
+    wrongMessage.style.display = 'none';
+    tryLeft.style.display = 'block';
 
     // If submitBtn is clicked, process notify message 
     if (isSubmitClicked) {
@@ -117,10 +102,34 @@ function notifyMessage() {
             tryLeft.style.display = 'none';
         } else {
             wrongMessage.style.display = 'block';
+            --tryCount;
+            tryLeft.innerText = `${tryCount} try left`;
+            alertMessage();
             displayDigit.value = '';
         }
     }
+
     // Finishing notifyMessages again assign 'false' to isSubmitClicked
     isSubmitClicked = false;
 
+}
+
+function alertMessage() {
+    // If generatePin is not found, assigning digit/value is not allowed
+    if (!displayPin.value) {
+        return alert('Please generate PIN at first!');
+    }
+
+    // If anyone click SUBMIT button without input a PIN, alert message
+    if (!displayDigit.value) {
+        alert('Please input a PIN before submitting!')
+    }
+
+    // When 3 times trying, alert this and program reset
+    if (tryCount <= 0) {
+        alert('Oops! You have tried 3 times. Please generate PIN again.');
+        displayPin.value = '';
+        tryLeft.innerText = '';
+        wrongMessage.style.display = 'none';
+    }
 }
