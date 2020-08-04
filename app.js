@@ -1,3 +1,20 @@
+/*
+Project details:
+    Name: Pin-Matcher
+    Author: Mostafa Al Mahmud
+    Tasks/requirements to be done:
+        1. Both INPUT button is disabled to edit by pointer-events
+        2. Before generating PIN, SUBMIT button is disabled with low opacity and '3 TRY LEFT' text is hidden
+        3. ALERT to generate PIN when any DIGIT/NUMBER is pressed without getting PIN
+        4. Generate only 4 digits PIN randomly
+        5. ALERT to press DIGIT/NUMBER if SUBMIT is clicked without pressing any numbers
+        6. Able to input MAXIMUM 4 digits
+        7. DELETE left side number when '<' is clicked and CLEAR ALL numbers when 'C' is clicked
+        8. NOTIFY message when SUBMITTING whether it is right or wrong
+        9. 3 TRY LEFT options for only 1 generated PIN if the answer is wrong 
+        10. Program reset after 3 TRY or successful SUBMITTING
+*/
+
 // Variables =========================================================
 let digitCount = 0;
 let tryCount = 3;
@@ -25,8 +42,8 @@ const tryLeft = document.querySelector('.action-left');
 document.addEventListener('DOMContentLoaded', submitDisabled);
 generateBtn.addEventListener('click', generatePin);
 digitBtn.forEach((digit) => digit.addEventListener('click', addDigit));
-clearAllBtn.addEventListener('click', clearAll);
 deleteBtn.addEventListener('click', deleteLeft);
+clearAllBtn.addEventListener('click', clearAll);
 submitBtn.addEventListener('click', submitPin);
 
 
@@ -93,6 +110,7 @@ function clearAll() {
     submitDigit.value = '';
 }
 
+// Function to submit PIN into the input box
 function submitPin() {
     isSubmitClicked = true;
 
@@ -106,6 +124,7 @@ function submitPin() {
     digitCount = 0;
 }
 
+// Function to NOTIFY the message on right or wrong answer and TRY actions
 function notifyMessage() {
     // NOTIFY messages display is 'none' at first
     successMessage.style.display = 'none';
@@ -132,7 +151,9 @@ function notifyMessage() {
     isSubmitClicked = false;
 }
 
+// Function to alert various message on different situations
 function alertMessage() {
+
     // If generatePin is not found, assigning digit/input is not allowed
     if (!displayPin.value) {
         alert('Please generate PIN at first!');
@@ -142,7 +163,7 @@ function alertMessage() {
 
     // If anyone click SUBMIT button without input a PIN, alert message
     if (!submitDigit.value) {
-        alert('Please input a PIN before submitting!')
+        alert('Please press numbers before submitting!')
     }
 
     // When 3 times trying, alert this and program reset
